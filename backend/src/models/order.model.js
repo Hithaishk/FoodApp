@@ -30,6 +30,7 @@ OrderItemSchema.pre('validate', function (next) {
 
 const orderSchema = new Schema(
   {
+    _id: { type: Schema.Types.ObjectId },
     name: { type: String, required: true },
     address: { type: String, required: true },
     addressLatLng: { type: LatLngSchema, required: true },

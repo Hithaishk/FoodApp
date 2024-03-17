@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenStreetMap Pin Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Function to handle click events on the map
+        function onMapClick(e) {
+            // Add a marker at the clicked location
+            L.marker(e.latlng).addTo(map)
+                .bindPopup('You clicked here!').openPopup();
+            
+            // Send location to backend
+            fetch('/pin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lat: e.latlng.lat, lng: e.latlng.lng })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Location sent to backend successfully');
+                } else {
+                    console.error('Failed to send location to backend');
+                }
+            }).catch(error => {
+                console.error('Error sending location to backend:', error);
+            });
+        }
+
+        // Attach click event listener to the map
+        map.on('click', onMapClick);
+    </script>
+</body>
+</html>

@@ -9,6 +9,8 @@ import auth from '../middleware/auth.mid.js';
 import admin from '../middleware/admin.mid.js';
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 
+//google
+//normal code
 router.post(
   '/login',
   handler(async (req, res) => {

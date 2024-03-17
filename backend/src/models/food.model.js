@@ -7,7 +7,7 @@ export const FoodSchema = new Schema(
     category: {
       type: String,
       enum: ['veg', 'non-veg', 'dessert'],
-      required: true
+      required: false
     },
     favorite: { type: Boolean, default: false },
     stars: { type: Number, default: 3 },
